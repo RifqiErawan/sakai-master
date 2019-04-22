@@ -32,5 +32,8 @@ public interface PollDao extends GeneralGenericDao {
 	 * @return
 	 */
 	 public int getDisctinctVotersForPoll(Poll poll);
+         
+         // modifikasi
+         public int getDistinctNotVotersForPoll(Poll poll);
 
 }

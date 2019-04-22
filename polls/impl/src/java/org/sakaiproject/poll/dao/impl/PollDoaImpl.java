@@ -52,5 +52,19 @@ public class PollDoaImpl extends HibernateGeneralGenericDao implements PollDao {
 
         return 0; 
     }
+    
+    // modifikasi
+    public int getDistinctNotVotersForPoll(Poll poll){
+        Query q = null;
+
+        Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        String statement = "SELECT DISTINCT USER_ID from poll_user_not_vote_view where POLL_ID = " + poll.getPollId().toString();
+        q = session.createSQLQuery(statement);
+        List<String> results = q.list();
+        if (results.size() > 0)
+            return results.size();
+
+        return 0;
+    }
 
 }

@@ -70,6 +70,9 @@ public interface PollVoteManager {
     public boolean userHasVoted(Long pollid);
 
     public int getDisctinctVotersForPoll(Poll poll);
+    
+    // modifikasi
+    public int getDistinctNotVotersForPoll(Poll poll);
 
     /**
      * Get all the votes for a specific user in a poll or polls (or all polls)

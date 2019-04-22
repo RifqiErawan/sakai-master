@@ -138,6 +138,10 @@ public class ResultsProducer implements ViewComponentProducer,NavigationCaseRepo
 		//Object[] args = new Object[] { Integer.valueOf(voters).toString()};
 		if (poll.getMaxOptions()>1)
 			UIOutput.make(tofill,"poll-size",messageLocator.getMessage("results_poll_size",Integer.valueOf(voters).toString()));
+                
+                // modifikasi
+                int notVoters = pollVoteManager.getDisctinctVotersForPoll(poll);
+                UIOutput.make(tofill, "number-not-vote", messageLocator.getMessage("results_not_vote", Integer.valueOf(notVoters).toString()));
 
 		log.debug(voters + " have voted on this poll");
 

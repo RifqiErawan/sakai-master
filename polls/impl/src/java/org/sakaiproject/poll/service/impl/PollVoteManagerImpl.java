@@ -114,6 +114,11 @@ public class PollVoteManagerImpl implements PollVoteManager {
 	public int getDisctinctVotersForPoll(Poll poll) {
 		return dao.getDisctinctVotersForPoll(poll);
 	}
+        
+        // modifikasi
+        public int getDistinctNotVotersForPoll(Poll poll){
+            return dao.getDistinctNotVotersForPoll(poll);
+        }
 
 	public boolean userHasVoted(Long pollid, String userID) {
 		Search search = new Search();
