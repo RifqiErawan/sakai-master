@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.sakaiproject.poll.model">
+
+	<class name="org.sakaiproject.poll.model.UserNotVote" table="poll_user_not_vote_view">
+
+		<property name="userId" type="string" not-null="true">
+			<column name="USER_ID"/>
+		</property>
+		<property name="fullName" type="string" length="255" not-null="true">
+			<column name="FULL_NAME"/>
+		</property>
+		<property name="pollId" type="long" not-null="true">
+			<column name="POLL_ID" />
+		</property>
+		<property name="pollText" type="string" not-null="true">
+			<column name="POLL_TEXT" />
+		</property>
+		<property name="siteId" type="string" not-null="true">
+			<column name="SITE_ID" />
+		</property>
+                <property name="title" type="string" not-null="true">
+			<column name="TITLE" />
+		</property>                              
+	</class>
+	
+</hibernate-mapping>

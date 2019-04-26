@@ -27,6 +27,7 @@ import org.sakaiproject.entity.api.EntityProducer;
 import org.sakaiproject.exception.PermissionException;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.Poll;
+import org.sakaiproject.poll.model.UserNotVote;
 
 /**
  * This is the interface for the Manager for our poll tool, 
@@ -101,6 +102,13 @@ public interface PollListManager extends EntityProducer {
      * @throws IllegalArgumentException if the pollId is invalid
      */
     public List<Option> getOptionsForPoll(Long pollId);
+    
+    // modifikasi
+    public List<UserNotVote> getUsersNotVoteForPoll(Poll poll);
+    public List<UserNotVote> getUsersNotVoteForPoll(Long pollId);    
+//    public List<UserNotVote> getUsersNotVoteForSite(String siteId);
+    public List<UserNotVote> getUsersNotVote();
+        
     
     /**
      * Get options for the given poll that are not flagged as deleted.

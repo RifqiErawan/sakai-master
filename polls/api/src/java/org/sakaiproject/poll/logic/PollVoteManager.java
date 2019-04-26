@@ -73,6 +73,7 @@ public interface PollVoteManager {
     
     // modifikasi
     public int getDistinctNotVotersForPoll(Poll poll);
+    public List<String> getUsernameNotVotersForPoll(Poll poll);      
 
     /**
      * Get all the votes for a specific user in a poll or polls (or all polls)

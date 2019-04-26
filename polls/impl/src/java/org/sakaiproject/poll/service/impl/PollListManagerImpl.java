@@ -60,6 +60,7 @@ import org.sakaiproject.poll.logic.PollVoteManager;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.Poll;
 import org.sakaiproject.poll.model.Vote;
+import org.sakaiproject.poll.model.UserNotVote;
 import org.sakaiproject.poll.util.PollUtil;
 import org.sakaiproject.site.api.SiteService;
 
@@ -269,6 +270,12 @@ public class PollListManagerImpl implements PollListManager,EntityTransferrer {
     public List<Option> getOptionsForPoll(Poll poll) {
         return getOptionsForPoll(poll.getPollId());
     }
+    
+    // modifikasi
+    public List<UserNotVote> getUsersNotVoteForPoll(Poll poll){
+        return getUsersNotVoteForPoll(poll.getPollId());
+    }
+    
 
     public List<Option> getOptionsForPoll(Long pollId) {
         Poll poll;
@@ -285,6 +292,29 @@ public class PollListManagerImpl implements PollListManager,EntityTransferrer {
         search.addOrder(new Order("optionOrder"));
         List<Option> optionList = dao.findBySearch(Option.class, search);
         return optionList;
+    }
+    
+    //modifikasi
+    public List<UserNotVote> getUsersNotVoteForPoll(Long pollId) {
+        Poll poll;
+		try {
+			poll = getPollById(pollId, false);
+		} catch (SecurityException e) {
+			throw new SecurityException(e);
+		}
+        if (poll == null) {
+            throw new IllegalArgumentException("Cannot get usersNotVote for a poll ("+pollId+") that does not exist");
+        }
+        Search search = new Search();
+        search.addRestriction(new Restriction("pollId", pollId));
+        search.addOrder(new Order("optionOrder"));
+        List<UserNotVote> userNotVoteList = dao.findBySearch(UserNotVote.class, search);
+        return userNotVoteList;
+    }
+    
+    public List<UserNotVote> getUsersNotVote(){
+        List<UserNotVote> userNotVoteList = dao.findAll(UserNotVote.class);
+        return userNotVoteList;
     }
 
 	public List<Option> getVisibleOptionsForPoll(Long pollId) {

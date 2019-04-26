@@ -21,6 +21,7 @@
 
 package org.sakaiproject.poll.dao;
 
+import java.util.List;
 import org.sakaiproject.genericdao.api.GeneralGenericDao;
 import org.sakaiproject.poll.model.Poll;
 
@@ -35,5 +36,6 @@ public interface PollDao extends GeneralGenericDao {
          
          // modifikasi
          public int getDistinctNotVotersForPoll(Poll poll);
+         public List<String> getUsernameNotVotersForPoll(Poll poll);      
 
 }
