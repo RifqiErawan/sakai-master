@@ -37,6 +37,16 @@
 		<property name="messageLocator" ref="messageLocator" />
 		<property name="externalLogic" ref="org.sakaiproject.poll.logic.ExternalLogic"/>
 	</bean>
+        
+        <bean id="otherOptionBean"
+		class="org.sakaiproject.poll.tool.params.OtherOptionBean">
+		<property name="pollListManager"
+			ref="org.sakaiproject.poll.logic.PollListManager"/>		
+		<property name="pollVoteManager"
+			ref="org.sakaiproject.tool.poll.api.PollVoteManager" />		
+		<property name="optionText" ref="optionText" />		
+	</bean>
+        
 
 
 
@@ -47,6 +57,22 @@
 		<property name="localeGetter" ref="requestLocaleProxy" />
 		<property name="externalLogic" ref="org.sakaiproject.poll.logic.ExternalLogic"/>
 		<property name="site" ref="sakai-Site" />
+	</bean>
+        
+        <bean id="glossaryProducer"
+		class="org.sakaiproject.poll.tool.producers.GlossaryProducer">
+            
+            <property name="pollListManager"
+			ref="org.sakaiproject.poll.logic.PollListManager" />
+            <property name="pollVoteManager"
+			ref="org.sakaiproject.tool.poll.api.PollVoteManager" />
+		
+		<property name="messageLocator" ref="messageLocator" />
+		<property name="localeGetter" ref="requestLocaleProxy" />
+		<property name="externalLogic" ref="org.sakaiproject.poll.logic.ExternalLogic"/>		
+                <property name="voteBean" ref="voteBean" />
+		<property name="targettedMessageList"
+			ref="targettedMessageList" />
 	</bean>
 
 
@@ -117,6 +143,19 @@
 
 	<bean id="pollVoteProducer"
 		class="org.sakaiproject.poll.tool.producers.PollVoteProducer">
+		<property name="pollListManager"
+			ref="org.sakaiproject.poll.logic.PollListManager" />
+		<property name="messageLocator" ref="messageLocator" />
+		<property name="localeGetter" ref="requestLocaleProxy" />
+		<property name="pollVoteManager"
+			ref="org.sakaiproject.tool.poll.api.PollVoteManager" />
+		<property name="targettedMessageList"
+			ref="targettedMessageList" />
+			<property name="externalLogic" ref="org.sakaiproject.poll.logic.ExternalLogic"/>
+	</bean>
+        
+        <bean id="addOtherOptionProducer"
+		class="org.sakaiproject.poll.tool.producers.AddOtherOptionProducer">
 		<property name="pollListManager"
 			ref="org.sakaiproject.poll.logic.PollListManager" />
 		<property name="messageLocator" ref="messageLocator" />

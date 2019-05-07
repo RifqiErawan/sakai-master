@@ -25,9 +25,11 @@ import java.util.List;
 
 import org.sakaiproject.entity.api.EntityProducer;
 import org.sakaiproject.exception.PermissionException;
+import org.sakaiproject.poll.model.Glossary;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.Poll;
 import org.sakaiproject.poll.model.UserNotVote;
+import org.sakaiproject.poll.model.OtherOption;
 
 /**
  * This is the interface for the Manager for our poll tool, 
@@ -192,4 +194,13 @@ public interface PollListManager extends EntityProducer {
      * @return true or false
      */
     public boolean userCanDeletePoll(Poll poll);
+    
+    // modifikasi   
+    public boolean saveOtherOption(OtherOption t);
+    public void deleteOtherOption(OtherOption otherOption);
+    public List<OtherOption> getOtherOptionsForPoll(Poll poll);
+    public List<OtherOption> getOtherOptionsForPoll(Long pollId);
+    public OtherOption getOtherOptionById(Long optionId);
+    
+    public List<Glossary> findAllGLossary();
 }

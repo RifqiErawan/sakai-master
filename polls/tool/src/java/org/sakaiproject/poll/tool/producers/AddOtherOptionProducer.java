@@ -47,6 +47,7 @@ import uk.org.ponder.rsf.components.UICommand;
 import uk.org.ponder.rsf.components.UIContainer;
 import uk.org.ponder.rsf.components.UIELBinding;
 import uk.org.ponder.rsf.components.UIForm;
+import uk.org.ponder.rsf.components.UIInput;
 import uk.org.ponder.rsf.components.UIInternalLink;
 import uk.org.ponder.rsf.components.UIMessage;
 import uk.org.ponder.rsf.components.UIOutput;
@@ -66,9 +67,9 @@ import uk.org.ponder.rsf.viewstate.ViewParameters;
 import uk.org.ponder.rsf.viewstate.ViewParamsReporter;
 
 @Slf4j
-public class PollVoteProducer implements ViewComponentProducer,ViewParamsReporter, ActionResultInterceptor,NavigationCaseReporter {
+public class AddOtherOptionProducer implements ViewComponentProducer,ViewParamsReporter, ActionResultInterceptor,NavigationCaseReporter {
 
-	public static final String VIEW_ID = "voteQuestion";
+	public static final String VIEW_ID = "voteAddOtherOption";
 
 	private PollListManager pollListManager;
 	private MessageLocator messageLocator;
@@ -155,6 +156,10 @@ public class PollVoteProducer implements ViewComponentProducer,ViewParamsReporte
 		log.debug("this poll has " + poll.getOptions().size()+ " options");
 
 		UIForm voteForm = UIForm.make(tofill,"options-form",""); 
+                UIForm addOtherOptionForm = UIForm.make(tofill, "add-other-option-form");
+                UIInput.make(addOtherOptionForm, "other-option-input", "#pollToolBean.optionText");
+                UICommand.make(addOtherOptionForm, "other-option-submit", "#pollToolBean.processAddOtherOptionSubmit");
+
 
 		List<Option> pollOptions = pollListManager.getVisibleOptionsForPoll(poll.getPollId());
 		
@@ -221,7 +226,7 @@ public class PollVoteProducer implements ViewComponentProducer,ViewParamsReporte
 			UIBranchContainer actions = UIBranchContainer.make(tofill,"actions-other-option:",Integer.toString(0));
 			log.debug("this user has some admin functions");			
 			UIInternalLink.make(actions,NAVIGATE_ADD_OTHER_OPTION,UIMessage.make("add-other-option"),
-						new PollViewParameters(AddOtherOptionProducer.VIEW_ID, poll.getPollId().toString()));					
+						new PollViewParameters(UserNotVoteProducer.VIEW_ID, poll.getPollId().toString()));					
 		}
 
 

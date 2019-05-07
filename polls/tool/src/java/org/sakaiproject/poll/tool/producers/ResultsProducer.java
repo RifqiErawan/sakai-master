@@ -49,6 +49,7 @@ import uk.org.ponder.rsf.components.UIContainer;
 import uk.org.ponder.rsf.components.UIForm;
 import uk.org.ponder.rsf.components.UIInternalLink;
 import uk.org.ponder.rsf.components.UILink;
+import uk.org.ponder.rsf.components.UIMessage;
 import uk.org.ponder.rsf.components.UIOutput;
 import uk.org.ponder.rsf.components.UISelect;
 import uk.org.ponder.rsf.components.UIVerbatim;
@@ -67,6 +68,7 @@ import uk.org.ponder.rsf.components.decorators.UITooltipDecorator;
 public class ResultsProducer implements ViewComponentProducer,NavigationCaseReporter,ViewParamsReporter {
 
 	public static final String VIEW_ID = "voteResults";
+        private static final String NAVIGATE_OTHER_OPTION = "actions-add-other-option";
 
 	
 	private PollListManager pollListManager;
@@ -286,10 +288,31 @@ public class ResultsProducer implements ViewComponentProducer,NavigationCaseRepo
 		UIForm form = UIForm.make(tofill,"actform");
 		UICommand cancel = UICommand.make(form,"cancel",messageLocator.getMessage("results_cancel"),"#{pollToolBean.cancel}");
 		cancel.decorators = new DecoratorList(new UITooltipDecorator(messageLocator.getMessage("results_cancel_tooltip"))); 
-		
+//		UILink viewUsersNotVote = UILink.make(tofill,"viewUsersNotVote",messageLocator.getMessage("results_view_users_not_vote"),"#");
+//                UIInternalLink viewUsersNotVote = UIInternalLink.make(tofill,"viewUsersNotVote",messageLocator.getMessage("results_view_users_not_vote"),new SimpleViewParameters(PollToolProducer.VIEW_ID));
+                UIInternalLink viewUsersNotVote = UIInternalLink.make(tofill,"viewUsersNotVote",messageLocator.getMessage("results_view_users_not_vote"),new PollViewParameters(UserNotVoteProducer.VIEW_ID, poll.getPollId().toString()));
+                viewUsersNotVote.decorators = new DecoratorList(new UITooltipDecorator(messageLocator.getMessage("results_view_users_not_vote_tooltip")));
 		externalLogic.postEvent("poll.viewResult", "poll/site/" + externalLogic.getCurrentLocationId() +"/poll/" +  poll.getPollId(), false);
+                
+                if (this.isSiteOwner() ) {
+			UIBranchContainer actions = UIBranchContainer.make(tofill,"actions-other-option:",Integer.toString(0));
+			log.debug("this user has some admin functions");			
+			UIInternalLink.make(actions,NAVIGATE_OTHER_OPTION,UIMessage.make("action_add_other_option"),
+						new PollViewParameters(UserNotVoteProducer.VIEW_ID, poll.getPollId().toString()));					
+		}
+                
+                
 
 
+	}
+        
+        private boolean isSiteOwner(){
+		if (externalLogic.isUserAdmin())
+			return true;
+		else if (externalLogic.isAllowedInLocation("site.upd", externalLogic.getCurrentLocationReference()))
+			return true;
+		else
+			return false;
 	}
 
 	public List<NavigationCase> reportNavigationCases() {
@@ -297,6 +320,7 @@ public class ResultsProducer implements ViewComponentProducer,NavigationCaseRepo
 		List<NavigationCase> togo = new ArrayList<NavigationCase>(); // Always navigate back to this view.
 		togo.add(new NavigationCase(null, new SimpleViewParameters(VIEW_ID)));
 		togo.add(new NavigationCase("cancel", new SimpleViewParameters(PollToolProducer.VIEW_ID)));
+                togo.add(new NavigationCase("usersNotVotePage", new SimpleViewParameters(UserNotVoteProducer.VIEW_ID)));
 		return togo;
 	}	
 	public ViewParameters getViewParameters() {

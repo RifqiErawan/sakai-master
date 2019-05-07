@@ -123,6 +123,12 @@ public class PollVoteManagerImpl implements PollVoteManager {
         public List<String> getUsernameNotVotersForPoll(Poll poll){
             return dao.getUsernameNotVotersForPoll(poll);
         }
+        
+        public List<String> getUserIdNotVotersForPoll(Poll poll){
+            return dao.getUserIdNotVotersForPoll(poll);
+        }
+        
+        
 
 	public boolean userHasVoted(Long pollid, String userID) {
 		Search search = new Search();

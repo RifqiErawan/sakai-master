@@ -37,5 +37,5 @@ public interface PollDao extends GeneralGenericDao {
          // modifikasi
          public int getDistinctNotVotersForPoll(Poll poll);
          public List<String> getUsernameNotVotersForPoll(Poll poll);      
-
+         public List<String> getUserIdNotVotersForPoll(Poll poll);               
 }

@@ -62,11 +62,14 @@ $(document).ready(function() {
 <div rsf:id="message-for:*" class="alertMessage">
 	<span>Message for user here</span>
 </div>
+<!--<ul rsf:id="actions-other-option:" class="navIntraTool">
+  <li><a href="userNotVote.html" rsf:id="actions-add-other-option">Add Other Option</a></li>  
+</ul>-->
+
 <p rsf:id="question">poll question</p>
 <p rsf:id="poll-size">Num votes</p>
 <p rsf:id="number-not-vote">Num not vote</p>
 <p rsf:id="username-not-vote">Users not vote</p>
-<a href="userNotVote.html">See users not vote</a>
   <table id="sortableTable" class="listHier lines nolines" border="0" cellspacing="0">
 	<caption class="skip"><span class="skip" rsf:id="msg=results_summary"></span></caption>
     <thead>
@@ -111,7 +114,8 @@ $(document).ready(function() {
 
 <form rsf:id="actform">
 <p class="act">
-  <input type="submit" name="cancel" id="reset" value="Cancel"  accesskey="x" rsf:id="cancel" class="active"/>
+  <input type="submit" name="cancel" id="reset" value="Cancel"  accesskey="x" rsf:id="cancel" class="active"/>  
+  <a href= "userNotVote.html" target="_self" name="viewUsersNotVote" rsf:id="viewUsersNotVote"></a>
 </p>
 </form>
 </div>

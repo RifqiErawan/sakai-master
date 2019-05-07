@@ -75,5 +75,14 @@ public class PollDoaImpl extends HibernateGeneralGenericDao implements PollDao {
         List<String> results = q.list();
         return results;
     }
+    
+    public List<String> getUserIdNotVotersForPoll(Poll poll){
+        Query q = null;
+        Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        String statement = "SELECT USER_ID from poll_user_not_vote_view where POLL_ID = " + poll.getPollId().toString();
+        q = session.createSQLQuery(statement);
+        List<String> results = q.list();
+        return results;
+    }
 
 }

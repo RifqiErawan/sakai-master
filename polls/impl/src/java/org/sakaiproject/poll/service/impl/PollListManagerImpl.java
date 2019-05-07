@@ -21,6 +21,7 @@
 
 package org.sakaiproject.poll.service.impl;
 
+import static java.awt.PageAttributes.MediaType.D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,6 +37,7 @@ import java.util.Vector;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.Data;
+import org.hibernate.criterion.DetachedCriteria;
 
 import org.springframework.dao.DataAccessException;
 
@@ -57,7 +59,9 @@ import org.sakaiproject.poll.dao.PollDao;
 import org.sakaiproject.poll.logic.ExternalLogic;
 import org.sakaiproject.poll.logic.PollListManager;
 import org.sakaiproject.poll.logic.PollVoteManager;
+import org.sakaiproject.poll.model.Glossary;
 import org.sakaiproject.poll.model.Option;
+import org.sakaiproject.poll.model.OtherOption;
 import org.sakaiproject.poll.model.Poll;
 import org.sakaiproject.poll.model.Vote;
 import org.sakaiproject.poll.model.UserNotVote;
@@ -90,6 +94,11 @@ public class PollListManagerImpl implements PollListManager,EntityTransferrer {
         externalLogic.registerFunction(PERMISSION_EDIT_ANY);
         externalLogic.registerFunction(PERMISSION_EDIT_OWN);
         log.info(this + " init()");
+    }
+        
+    public List<Glossary> findAllGLossary() {               
+        List<Glossary> glossary = dao.findAll(Glossary.class);
+        return glossary;
     }
 
     public List<Poll> findAllPollsForUserAndSitesAndPermission(String userId, String[] siteIds,
@@ -710,4 +719,83 @@ public class PollListManagerImpl implements PollListManager,EntityTransferrer {
 		}
 		return false;
 	}
+        
+        // modifikasi
+    @Override
+        public List<OtherOption> getOtherOptionsForPoll(Poll poll) {
+            return getOtherOptionsForPoll(poll.getPollId());
+        }          
+    
+    @Override
+        public List<OtherOption> getOtherOptionsForPoll(Long pollId) {
+            Poll poll;
+                    try {
+                            poll = getPollById(pollId, false);
+                    } catch (SecurityException e) {
+                            throw new SecurityException(e);
+                    }
+            if (poll == null) {
+                throw new IllegalArgumentException("Cannot get other options for a poll ("+pollId+") that does not exist");
+            }
+            Search search = new Search();
+            search.addRestriction(new Restriction("pollId", pollId));
+//            search.addOrder(new Order("optionOrder"));
+            List<OtherOption> otherOptionList = dao.findBySearch(OtherOption.class, search);
+            return otherOptionList;
+        }
+        
+    @Override
+        public boolean saveOtherOption(OtherOption t) {    
+            if (t == null || t.getOptionText() == null || t.getPollId()== null || t.getUserId()== null) {
+                    throw new IllegalArgumentException("Ada yang Kosong");
+            }
+            // mengecek user admin
+//            if(!externalLogic.isUserAdmin()){
+//                throw new SecurityException();
+//            }
+
+            if(t.getVoteDate()== null) {
+                t.setVoteDate(new Date());
+            }
+            
+            try {
+                dao.save(t);
+            } catch (DataAccessException e) {
+                log.error("Hibernate could not save: " + e.toString(), e);
+                return false;
+            }
+            log.info("Other Option  " + t.toString() + "successfuly saved");
+            return true;
+        }
+        
+    @Override
+        public void deleteOtherOption(OtherOption otherOption) {
+            try {
+                dao.delete(otherOption);
+            } catch (DataAccessException e) {
+                log.error("Hibernate could not delete: " + e.toString(), e);
+                return;
+            }
+            log.info("Option id " + otherOption.getId() + " deleted");
+        }           
+
+    public OtherOption getOtherOptionById(Long pollId) throws SecurityException {
+    	
+    	
+    	Search search = new Search();
+        search.addRestriction(new Restriction("pollId", pollId));
+        OtherOption otherOption = dao.findOneBySearch(OtherOption.class, search);        
+        
+         if (otherOption == null)
+        	 return null;
+      //user needs at least site visit to read a poll
+//    	if (!externalLogic.isAllowedInLocation("site.visit", externalLogic.getSiteRefFromId(poll.getSiteId()), externalLogic.getCurrentuserReference()) && !externalLogic.isUserAdmin()) {
+//    		throw new SecurityException("user:" + externalLogic.getCurrentuserReference() + " can't read poll " + pollId);
+//    	}
+        
+        return otherOption;
+    }
+                
+        
+        
 }
