@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.Poll;
+import org.sakaiproject.poll.model.UserNotVote;
 import org.sakaiproject.poll.model.Vote;
 
 public interface PollVoteManager {
@@ -109,4 +110,6 @@ public interface PollVoteManager {
      * @param votes The votes to delete
      */
     public void deleteAll(List<Vote> votes);
+    
+    public List<UserNotVote> findAllUserNotVote();
 }

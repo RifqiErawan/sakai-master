@@ -35,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sakaiproject.poll.logic.ExternalLogic;
 import org.sakaiproject.poll.logic.PollListManager;
 import org.sakaiproject.poll.logic.PollVoteManager;
+import org.sakaiproject.poll.model.Glossary;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.OtherOption;
 import org.sakaiproject.poll.model.Poll;
@@ -120,6 +121,10 @@ public class PollToolBean {
 	}
 
 	private Poll poll;
+        private Glossary glossary;
+        public String glossaryName;
+        public String glossaryCategory;
+        public String glossaryDescription;
 	public void setPoll(Poll p) {
 		poll = p;
 	}
@@ -192,6 +197,49 @@ public class PollToolBean {
 		
 		return poll;
 	}
+        
+        public Glossary processActionAddGlossary(){
+            if (glossary.getTerm().trim() == null || glossary.getTerm().length() == 0 ) {
+			log.debug("Glossary termi is Empty!");
+			messages.addMessage(new TargettedMessage("error_no_text","no text"));
+			throw new  IllegalArgumentException("error_no_text");
+
+            }
+            if (glossary.getCategory().trim() == null || glossary.getCategory().length() == 0 ) {
+			log.debug("Glossary category is Empty!");
+			messages.addMessage(new TargettedMessage("error_no_text","no text"));
+			throw new  IllegalArgumentException("error_no_text");
+
+            }
+            if (glossary.getDescription().trim() == null || glossary.getDescription().length() == 0 ) {
+			log.debug("Glossary description is Empty!");
+			messages.addMessage(new TargettedMessage("error_no_text","no text"));
+			throw new  IllegalArgumentException("error_no_text");
+
+            }
+            manager.saveGlossary(glossary);
+            return glossary;
+            
+        }
+        
+        public String processActionAddGlossaryString(){
+            if (glossaryCategory != null && glossaryDescription != null && glossaryDescription != null) {
+                Glossary glossaryy = new Glossary();
+                boolean status;
+                
+                glossaryy.setCategory(glossaryCategory);
+                glossaryy.setDescription(glossaryDescription);
+                glossaryy.setTerm(glossaryName);
+                status = manager.saveGlossary(glossaryy);
+                if(status){
+                    return "success";
+                }
+                
+            }else{
+                return "failure";
+            }
+            return "failure";
+        }
 
 
 	public void processActionDelete() {

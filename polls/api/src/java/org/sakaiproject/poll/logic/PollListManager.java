@@ -203,4 +203,5 @@ public interface PollListManager extends EntityProducer {
     public OtherOption getOtherOptionById(Long optionId);
     
     public List<Glossary> findAllGLossary();
+    public boolean saveGlossary(Glossary t) throws SecurityException, IllegalArgumentException;
 }

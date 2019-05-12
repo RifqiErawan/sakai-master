@@ -12,7 +12,7 @@
                 <value>org/sakaiproject/poll/hbm/Vote.hbm.xml</value>
                 <value>org/sakaiproject/poll/hbm/OtherOption.hbm.xml</value>
                 <value>org/sakaiproject/poll/hbm/Glossary.hbm.xml</value>
-                <!--<value>org/sakaiproject/poll/hbm/UserNotVote.hbm.xml</value>-->
+                <value>org/sakaiproject/poll/hbm/UserNotVote.hbm.xml</value>
             </list>
         </constructor-arg>
     </bean>
@@ -28,7 +28,7 @@
             <value>org.sakaiproject.poll.model.Vote</value>
             <value>org.sakaiproject.poll.model.OtherOption</value>
             <value>org.sakaiproject.poll.model.Glossary</value>
-            <!--<value>org.sakaiproject.poll.model.UserNotVote</value>-->
+            <value>org.sakaiproject.poll.model.UserNotVote</value>
          </list>
       </property>
    </bean>

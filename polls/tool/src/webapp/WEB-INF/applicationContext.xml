@@ -74,7 +74,7 @@
 	</bean>
 	<bean parent="requestAddressibleParent">
 		<property name="value"
-			value="pollTollBean.optionText, pollToolBean, voteBean, pollVoteProducer, voteCollection,option,poll, pollGuard, permissionAction, roleperms, optionValidator" />
+			value="pollToolBean, voteBean, pollVoteProducer, voteCollection, option, glossary, poll, pollGuard, permissionAction, roleperms, optionValidator" />
 	</bean>
 	
     <!-- Scope for the vote bean -->

@@ -100,6 +100,23 @@ public class PollListManagerImpl implements PollListManager,EntityTransferrer {
         List<Glossary> glossary = dao.findAll(Glossary.class);
         return glossary;
     }
+    public boolean saveGlossary(Glossary t) throws SecurityException, IllegalArgumentException {                
+        if (t == null || t.getCategory()== null || t.getTerm()== null || t.getDescription()== null) {
+            throw new IllegalArgumentException("you must supply glossary");
+        }                               
+
+        try {           
+            dao.save(t);
+
+        } catch (DataAccessException e) {
+            log.error("Hibernate could not save: " + e.toString(), e);
+            return false;
+        }
+        log.debug(" Glossary  " + t.toString() + "successfuly saved");
+//        externalLogic.registerStatement(t.getText(), newPoll, t.getPollId().toString());
+
+        return true;
+    }
 
     public List<Poll> findAllPollsForUserAndSitesAndPermission(String userId, String[] siteIds,
             String permissionConstant) {

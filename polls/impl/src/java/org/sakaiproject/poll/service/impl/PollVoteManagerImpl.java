@@ -38,6 +38,7 @@ import org.sakaiproject.poll.logic.PollListManager;
 import org.sakaiproject.poll.logic.PollVoteManager;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.Poll;
+import org.sakaiproject.poll.model.UserNotVote;
 import org.sakaiproject.poll.model.Vote;
 
 @Slf4j
@@ -246,5 +247,10 @@ public class PollVoteManagerImpl implements PollVoteManager {
         for (Vote vote : votes) {
             deleteVote(vote);
         }
+    }
+    
+    public List<UserNotVote> findAllUserNotVote() {               
+        List<UserNotVote> userNotVote = dao.findAll(UserNotVote.class);
+        return userNotVote;
     }
 }
