@@ -82,6 +82,10 @@ public class AddGlossaryProducer implements ViewComponentProducer,NavigationCase
 	private PollListManager pollListManager;
 	private MessageLocator messageLocator;
 	private LocaleGetter localeGetter;
+        private TargettedMessageList tml;
+        private ExternalLogic externalLogic;
+        
+        private static final String NAVIGATE_GLOSSARY = "actions-glossary";
 
 	public String getViewID() {
 		return VIEW_ID;
@@ -97,98 +101,52 @@ public class AddGlossaryProducer implements ViewComponentProducer,NavigationCase
 
 	public void setPollListManager(PollListManager pollListManager) {
 		this.pollListManager = pollListManager;
-	}
-
-
-
-	private VoteBean voteBean;
-	public void setVoteBean(VoteBean vb){
-		this.voteBean = vb;
-	}
-
-	private TextInputEvolver richTextEvolver;
-	public void setRichTextEvolver(TextInputEvolver richTextEvolver) {
-		this.richTextEvolver = richTextEvolver;
-	}
-
-	private TargettedMessageList tml;
+	}	
+	
 	public void setTargettedMessageList(TargettedMessageList tml) {
 		this.tml = tml;
 	}
-
-
-	private ExternalLogic externalLogic;
+	
 	public void setExternalLogic(ExternalLogic externalLogic) {
 		this.externalLogic = externalLogic;
-	}
-
-	private PollVoteManager pollVoteManager;
-
-
-
-	public void setPollVoteManager(PollVoteManager pvm){
-		this.pollVoteManager = pvm;
-	}
-
-
-
-
-	/*
-	 * You can change the date input to accept time as well by uncommenting the lines like this:
-	 * dateevolver.setStyle(FormatAwareDateInputEvolver.DATE_TIME_INPUT);
-	 * and commenting out lines like this:
-	 * dateevolver.setStyle(FormatAwareDateInputEvolver.DATE_INPUT);
-	 * -AZ
-	 */
-	private FormatAwareDateInputEvolver dateevolver;
-	public void setDateEvolver(FormatAwareDateInputEvolver dateevolver) {
-		this.dateevolver = dateevolver;
-	}
-
-
-
+	}	
+	
 	public void fillComponents(UIContainer tofill, ViewParameters viewparams,
-			ComponentChecker checker) {
-
-
-
-		String currentuserid = externalLogic.getCurrentUserId();
-
-		PollViewParameters ecvp = (PollViewParameters) viewparams;
-		Poll poll = null;
-		boolean isNew = true;
-
-		String locale = localeGetter.get().toString();
-        Map<String, String> langMap = new HashMap<String, String>();
-        langMap.put("lang", locale);
-        langMap.put("xml:lang", locale);
-
-		UIOutput.make(tofill, "polls-html", null).decorate(new UIFreeAttributeDecorator(langMap));
+			ComponentChecker checker) {		
+            String locale = localeGetter.get().toString();
+            Map<String, String> langMap = new HashMap<String, String>();
+            langMap.put("lang", locale);
+            langMap.put("xml:lang", locale);
+            UIOutput.make(tofill, "polls-html", null).decorate(new UIFreeAttributeDecorator(langMap));
+            
+            UIBranchContainer actions = UIBranchContainer.make(tofill,"actions:",Integer.toString(0));
+            UIInternalLink.make(actions, NAVIGATE_GLOSSARY, UIMessage.make("action_glossary"),new SimpleViewParameters(GlossaryProducer.VIEW_ID));
                 Glossary glossary = new Glossary();	
-        UIForm newGlossaryForm = UIForm.make(tofill, "add-glossary-form");
-        UIOutput.make(tofill, "add-glossary-title", messageLocator.getMessage("add_glossary_title"));				
-        UIMessage.make(tofill, "glossary-name-label", "glossary_name_label");
-        UIMessage.make(tofill, "glossary-description-label", "glossary_description_label");
-        UIMessage.make(tofill, "glossary-category-label", "glossary_term_label");
-        UIMessage.make(tofill, "new-poll-descr", "new_poll_title");
-//        UIInput.make(newGlossaryForm, "glossary-name-input", "#{glossary.term}",glossary.getTerm());
+            UIForm newGlossaryForm = UIForm.make(tofill, "add-glossary-form");
+            UIOutput.make(tofill, "add-glossary-title", messageLocator.getMessage("add_glossary_title"));				
+            UIMessage.make(tofill, "glossary-name-label", "glossary_name_label");
+            UIMessage.make(tofill, "glossary-description-label", "glossary_description_label");
+            UIMessage.make(tofill, "glossary-category-label", "glossary_term_label");
+            UIMessage.make(tofill, "new-poll-descr", "new_poll_title");
+            UIInput.make(newGlossaryForm, "glossary-name-input", "#{pollToolBean.glossaryName}");
+            UIInput.make(newGlossaryForm, "glossary-description-input", "#{pollToolBean.glossaryDescription}");
+            UIInput.make(newGlossaryForm, "glossary-category-input", "#{pollToolBean.glossaryCategory}");
+            UICommand.make(newGlossaryForm, "submit-new-glossary", "#{pollToolBean.processActionAddGlossaryString}");
+//            UICommand cancel = UICommand.make(newGlossaryForm, "cancel",UIMessage.make("new_glossary_cancel"));
+//            UICommand glossaryIndex = UICommand.make(newGlossaryForm, "glossaryIndex",UIMessage.make("glossary_index"));               
+	}
+        //        UIInput.make(newGlossaryForm, "glossary-name-input", "#{glossary.term}",glossary.getTerm());
 //        UIInput.make(newGlossaryForm, "glossary-description-input", "#{glossary.description}",glossary.getDescription());
 //        UIInput.make(newGlossaryForm, "glossary-category-input", "#{glossary.category}",glossary.getCategory());											
 //UICommand.make(newGlossaryForm, "submit-new-glossary", UIMessage.make("new_glossary_submit"),
 //			"#{pollToolBean.processActionAddGlossary}");
-        UIInput.make(newGlossaryForm, "glossary-name-input", "#{pollToolBean.glossaryName}");
-        UIInput.make(newGlossaryForm, "glossary-description-input", "#{pollToolBean.glossaryDescription}");
-        UIInput.make(newGlossaryForm, "glossary-category-input", "#{pollToolBean.glossaryCategory}");
-        UICommand.make(newGlossaryForm, "submit-new-glossary", "#{pollToolBean.processActionAddGlossaryString}");
 	
 		
 
-		UICommand cancel = UICommand.make(newGlossaryForm, "cancel",UIMessage.make("new_glossary_cancel"));
-                UICommand glossaryIndex = UICommand.make(newGlossaryForm, "glossaryIndex",UIMessage.make("glossary_index"));
+		
 //                UICommand cancel = UICommand.make(newGlossaryForm, "cancel",UIMessage.make("new_glossary_cancel"));
 //		cancel.parameters.add(new UIELBinding("#{voteCollection.submissionStatus}", "cancel"));
 //		log.debug("Finished generating view");
-	}
 
 
 	public List<NavigationCase> reportNavigationCases() {
@@ -202,7 +160,6 @@ public class AddGlossaryProducer implements ViewComponentProducer,NavigationCase
 
 	public ViewParameters getViewParameters() {
 		return new PollViewParameters();
-
 	}
 
 	
