@@ -31,10 +31,9 @@ public class Option {
     private String text;
     private String status;
     private String uuid;
-    private Boolean deleted = Boolean.FALSE;
-    private Boolean isOtherQuestion = Boolean.FALSE;
-    private Integer optionOrder;
-
+    private Boolean deleted = Boolean.FALSE;    
+    private Integer optionOrder;    
+    
     public Option() {}
 
     public Option(Long oId) {

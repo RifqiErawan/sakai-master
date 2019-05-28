@@ -31,11 +31,9 @@
 		<property name="deleted" type="java.lang.Boolean">
 			<column name="DELETED" />
 		</property>
-                <property name="isOtherOption" type="java.lang.Boolean">
-			<column name="IS_OTHER_OPTION" />
-		</property>
+                
 		<property name="optionOrder" type="int" not-null="true">
 			<column name="OPTION_ORDER" />
-		</property>
+		</property>                
 	</class>
 </hibernate-mapping>
