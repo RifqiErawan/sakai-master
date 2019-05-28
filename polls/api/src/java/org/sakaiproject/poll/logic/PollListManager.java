@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.sakaiproject.entity.api.EntityProducer;
 import org.sakaiproject.exception.PermissionException;
+import org.sakaiproject.poll.model.AcademicSession;
 import org.sakaiproject.poll.model.Glossary;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.Poll;
@@ -204,4 +205,7 @@ public interface PollListManager extends EntityProducer {
     
     public List<Glossary> findAllGLossary();
     public boolean saveGlossary(Glossary t) throws SecurityException, IllegalArgumentException;
+    
+    public List<AcademicSession> findAllAcademicSession();
+    public boolean saveAcademicSession(AcademicSession t) throws SecurityException, IllegalArgumentException;
 }

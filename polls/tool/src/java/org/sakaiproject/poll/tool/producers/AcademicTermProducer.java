@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sakaiproject.poll.logic.ExternalLogic;
 import org.sakaiproject.poll.logic.PollListManager;
 import org.sakaiproject.poll.logic.PollVoteManager;
+import org.sakaiproject.poll.model.AcademicSession;
 import org.sakaiproject.poll.model.Poll;
 import org.sakaiproject.poll.model.Glossary;
 import org.sakaiproject.poll.tool.params.PollViewParameters;
@@ -69,16 +70,16 @@ import uk.org.ponder.rsf.viewstate.ViewParameters;
 import uk.org.ponder.stringutil.StringList;
 
 @Slf4j
-public class GlossaryProducer implements ViewComponentProducer,
+public class AcademicTermProducer implements ViewComponentProducer,
 DefaultView,NavigationCaseReporter {
-	public static final String VIEW_ID = "pollGlossary";
+	public static final String VIEW_ID = "academicTerm";
 	
 	private PollListManager pollListManager;
 	
 	private MessageLocator messageLocator;
 	private LocaleGetter localegetter;
 	private PollVoteManager pollVoteManager;  
-        private static final String NAVIGATE_ADD_GLOSSARY = "actions-add-glossary";
+        private static final String NAVIGATE_ADD_ACADEMIC_TERM = "actions-add-academic-term";
 
 //	private static final String NAVIGATE_ADD = "actions-add";
 //	private static final String NAVIGATE_PERMISSIONS = "actions-permissions";
@@ -134,20 +135,22 @@ DefaultView,NavigationCaseReporter {
         langMap.put("lang", locale);
         langMap.put("xml:lang", locale);
         UIBranchContainer actions = UIBranchContainer.make(tofill,"actions:",Integer.toString(0));
-        UIInternalLink.make(actions, NAVIGATE_ADD_GLOSSARY, UIMessage.make("action_add_glossary"),new SimpleViewParameters(AddGlossaryProducer.VIEW_ID));
+        UIInternalLink.make(actions, NAVIGATE_ADD_ACADEMIC_TERM, UIMessage.make("action_add_academic_term"),new SimpleViewParameters(AddAcademicTermProducer.VIEW_ID));
 
 		UIOutput.make(tofill, "polls-html", null).decorate(new UIFreeAttributeDecorator(langMap));
 			
-		UIOutput.make(tofill, "glossary-title", messageLocator.getMessage("glossary_title"));	
-		List<Glossary> listGlossary;
-                listGlossary = pollListManager.findAllGLossary();
+		UIOutput.make(tofill, "academic-term-title", messageLocator.getMessage("academic_term_title"));	
+		List<AcademicSession> listAS;
+                listAS = pollListManager.findAllAcademicSession();
                 
-                for(Glossary glossary : listGlossary){
-                    UIBranchContainer row = UIBranchContainer.make(tofill, "list-glossary:");
-                    UIOutput.make(row, "glossary_id", String.valueOf(glossary.getId()) );
-                    UIOutput.make(row, "glossary_term", glossary.getTerm());
-                    UIOutput.make(row, "glossary_description", glossary.getDescription());
-                    UIOutput.make(row, "glossary_category", glossary.getCategory());
+                for(AcademicSession item : listAS){                    
+                    UIBranchContainer row = UIBranchContainer.make(tofill, "list-academic-term:");
+                    UIOutput.make(row, "academic_term_id", String.valueOf(item.getAcademicSessionId()) );
+                    UIOutput.make(row, "academic_term_title", item.getTitle());
+                    UIOutput.make(row, "academic_term_description", item.getDescription());
+                    UIOutput.make(row, "academic_term_start_date", item.getStartDate().toString());
+                    UIOutput.make(row, "academic_term_end_date", item.getEndDate().toString());
+                    UIOutput.make(row, "academic_term_created_by", item.getCreatedBy());
 //                    System.out.println(glossary.getCategory());
                 }  
 

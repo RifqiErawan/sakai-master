@@ -64,6 +64,7 @@ public class Poll implements Entity  {
     private boolean currentUserVoted = false;
     private List<Option> options;
     private Boolean isPublic = false;
+    private Boolean isQuestionnaire = false;
 
     @Getter(AccessLevel.NONE)
     private String id;
@@ -76,6 +77,7 @@ public class Poll implements Entity  {
         this.maxOptions = 1;
         this.limitVoting = true;
         this.isPublic = false;
+//        this.isQuestionnaire = false;
         this.voteOpen = new Date();
 
         Calendar cal = Calendar.getInstance();

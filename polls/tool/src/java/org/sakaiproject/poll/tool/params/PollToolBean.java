@@ -186,6 +186,7 @@ public class PollToolBean {
 
 		poll.setDetails(PollUtils.cleanupHtmlPtags(FormattedText.processFormattedText(poll.getDetails(), new StringBuilder())));
 		log.debug("about to save poll " + poll);
+                log.info("ININIH"+poll.getSiteId());
 		manager.savePoll(poll);
 
 		log.info("Poll saved with id of " + poll.getPollId());

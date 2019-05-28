@@ -84,6 +84,8 @@ DefaultView,NavigationCaseReporter {
         private static final String NAVIGATE_GLOSSARY = "actions-glossary";
         private static final String NAVIGATE_ADD_GLOSSARY = "actions-add-glossary";
         private static final String NAVIGATE_USER_NOT_VOTE = "actions-user-not-vote";
+        private static final String NAVIGATE_ACADEMIC_TERM = "actions-academic-term";
+        private static final String NAVIGATE_ADD_ACADEMIC_TERM = "actions-add-academic-term";        
         
 
 	public String getViewID() {
@@ -154,6 +156,8 @@ DefaultView,NavigationCaseReporter {
 				UIInternalLink.make(actions, NAVIGATE_PERMISSIONS, UIMessage.make("action_set_permissions"),new SimpleViewParameters(PermissionsProducer.VIEW_ID));
                                 UIInternalLink.make(actions, NAVIGATE_GLOSSARY, UIMessage.make("action_glossary"),new SimpleViewParameters(GlossaryProducer.VIEW_ID));
                                 UIInternalLink.make(actions, NAVIGATE_ADD_GLOSSARY, UIMessage.make("action_add_glossary"),new SimpleViewParameters(AddGlossaryProducer.VIEW_ID));
+                                UIInternalLink.make(actions, NAVIGATE_ACADEMIC_TERM, UIMessage.make("action_academic_term"),new SimpleViewParameters(AcademicTermProducer.VIEW_ID));
+                                UIInternalLink.make(actions, NAVIGATE_ADD_ACADEMIC_TERM, UIMessage.make("action_add_academic_term"),new SimpleViewParameters(AddAcademicTermProducer.VIEW_ID));
                                 if(externalLogic.isUserAdmin()){
                                     UIInternalLink.make(actions, NAVIGATE_USER_NOT_VOTE, UIMessage.make("action_user_not_vote"),new SimpleViewParameters(UserNotVoteProducer.VIEW_ID));
                                 }

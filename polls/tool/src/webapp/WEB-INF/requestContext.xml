@@ -75,6 +75,22 @@
 			ref="targettedMessageList" />
 	</bean>
         
+        <bean id="academicTermProducer"
+		class="org.sakaiproject.poll.tool.producers.AcademicTermProducer">
+            
+            <property name="pollListManager"
+			ref="org.sakaiproject.poll.logic.PollListManager" />
+            <property name="pollVoteManager"
+			ref="org.sakaiproject.tool.poll.api.PollVoteManager" />
+		
+		<property name="messageLocator" ref="messageLocator" />
+		<property name="localeGetter" ref="requestLocaleProxy" />
+		<property name="externalLogic" ref="org.sakaiproject.poll.logic.ExternalLogic"/>		
+                <property name="voteBean" ref="voteBean" />
+		<property name="targettedMessageList"
+			ref="targettedMessageList" />
+	</bean>
+        
         <bean id="userNotVoteProducer"
 		class="org.sakaiproject.poll.tool.producers.UserNotVoteProducer">
             
@@ -185,6 +201,17 @@
         
         <bean id="addGlossaryProducer"
 		class="org.sakaiproject.poll.tool.producers.AddGlossaryProducer">
+		<property name="pollListManager"
+			ref="org.sakaiproject.poll.logic.PollListManager" />
+		<property name="messageLocator" ref="messageLocator" />
+		<property name="localeGetter" ref="requestLocaleProxy" />		
+		<property name="targettedMessageList"
+			ref="targettedMessageList" />
+			<property name="externalLogic" ref="org.sakaiproject.poll.logic.ExternalLogic"/>
+	</bean>
+        
+        <bean id="addAcademicTermProducer"
+		class="org.sakaiproject.poll.tool.producers.AddAcademicTermProducer">
 		<property name="pollListManager"
 			ref="org.sakaiproject.poll.logic.PollListManager" />
 		<property name="messageLocator" ref="messageLocator" />

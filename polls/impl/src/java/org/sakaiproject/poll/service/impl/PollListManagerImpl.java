@@ -59,6 +59,7 @@ import org.sakaiproject.poll.dao.PollDao;
 import org.sakaiproject.poll.logic.ExternalLogic;
 import org.sakaiproject.poll.logic.PollListManager;
 import org.sakaiproject.poll.logic.PollVoteManager;
+import org.sakaiproject.poll.model.AcademicSession;
 import org.sakaiproject.poll.model.Glossary;
 import org.sakaiproject.poll.model.Option;
 import org.sakaiproject.poll.model.OtherOption;
@@ -113,6 +114,24 @@ public class PollListManagerImpl implements PollListManager,EntityTransferrer {
             return false;
         }
         log.debug(" Glossary  " + t.toString() + "successfuly saved");
+//        externalLogic.registerStatement(t.getText(), newPoll, t.getPollId().toString());
+
+        return true;
+    }
+    
+    public List<AcademicSession> findAllAcademicSession() {               
+        List<AcademicSession> aS = dao.findAll(AcademicSession.class);
+        return aS;
+    }
+    public boolean saveAcademicSession(AcademicSession t) throws SecurityException, IllegalArgumentException {                                     
+        try {           
+            dao.save(t);
+
+        } catch (DataAccessException e) {
+            log.error("Hibernate could not save: " + e.toString(), e);
+            return false;
+        }
+        log.debug(" AcademicSession  " + t.toString() + "successfuly saved");
 //        externalLogic.registerStatement(t.getText(), newPoll, t.getPollId().toString());
 
         return true;

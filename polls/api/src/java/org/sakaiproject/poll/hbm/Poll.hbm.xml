@@ -58,6 +58,9 @@
 		<property name="isPublic" type="boolean" not-null="true">
 			<column name="POLL_IS_PUBLIC" />
 		</property>
+                <property name="isQuestionnaire" type="boolean">
+			<column name="POLL_IS_QUESTIONNAIRE" />
+		</property>
 	</class>
 	
 </hibernate-mapping>
